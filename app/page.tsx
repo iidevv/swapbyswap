@@ -7,7 +7,7 @@ const page = async () => {
     }
   })
   return (
-    <main>Hi, {user?.name}</main>
+    <>Hi, {user?.name}</>
   )
 }
 
