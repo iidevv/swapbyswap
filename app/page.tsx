@@ -1,13 +1,13 @@
 import { prisma } from "@/lib/prisma"
 
 const page = async () => {
-  const user = await prisma.user.findFirst({
-    where: {
-      email: 'test@test.com'
-    }
-  })
+  const products = await prisma.product.findMany({})
   return (
-    <>Hi, {user?.name}</>
+    <>
+      {products.map((product) => (
+        <div>{product.title}</div>
+      ))}
+    </>
   )
 }
 

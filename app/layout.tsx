@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { Ubuntu } from 'next/font/google'
-import './globals.css'
+import './styles/globals.css'
 import Footer from '@/components/layout/footer'
 import Navbar from '@/components/layout/navbar'
+import Providers from '../components/providers';
 
 const ubuntu = Ubuntu({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -20,9 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={ubuntu.className}>
         <div className="page">
-          <Navbar />
-          <main className='main'>{children}</main>
-          <Footer />
+          <Providers>
+            <Navbar />
+            <main className='main'>{children}</main>
+            <Footer />
+          </Providers>
         </div>
       </body>
     </html>

@@ -2,10 +2,11 @@ import React from 'react'
 import Container from './container'
 
 const Footer = () => {
+    const date = new Date();
     return (
         <footer className='footer'>
             <Container>
-                Footer
+                <p className='copyright'>&copy; {date.getFullYear()}. SwapBySwap Inc.</p>
             </Container>
         </footer>
     )

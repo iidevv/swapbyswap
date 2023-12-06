@@ -1,10 +1,12 @@
+import Button from '@/components/button'
 import React from 'react'
+import SigninButton from '../../signin-button';
 
 const Controls = () => {
     return (
         <div>
-            <button>New Swap</button>
-            <button>Sign in</button>
+            <Button>New Swap</Button>
+            <SigninButton></SigninButton>
         </div>
     )
 }
