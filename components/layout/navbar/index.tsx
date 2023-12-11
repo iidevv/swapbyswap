@@ -7,7 +7,7 @@ import Menu from './menu';
 
 const Navbar = () => {
     return (
-        <header className='header'>
+        <header className='shadow-grey-light shadow-sm sticky top-0 z-50 bg-white'>
             <Container className="flex items-center justify-between p-2 gap-4">
                 <Logo />
                 <Search />

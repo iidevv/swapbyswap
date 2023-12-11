@@ -7,7 +7,7 @@ type Container = {
 
 const Container = ({ children, className = "" }: Container) => {
     return (
-        <div className={`sbs-container ${className}`}>{children}</div>
+        <div className={`container mx-auto px-2 ${className}`}>{children}</div>
     )
 }
 

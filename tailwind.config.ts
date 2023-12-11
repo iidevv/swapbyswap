@@ -21,6 +21,15 @@ const config: Config = {
         '2xl': '6rem',
       },
     },
+    animation: {
+      'popup': 'popup .1s ease-in-out',
+    },
+    keyframes: {
+      'popup': {
+        '0%': { opacity: '0' },
+        '100%': { opacity: '1' },
+      },
+    },
     extend: {
       colors: {
         'primary': 'rgb(var(--primary))',

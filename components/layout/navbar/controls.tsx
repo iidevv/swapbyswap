@@ -5,8 +5,7 @@ import SigninButton from '../../signin-button';
 const Controls = () => {
     return (
         <div>
-            <Button>New Swap</Button>
-            <SigninButton></SigninButton>
+            <SigninButton />
         </div>
     )
 }
