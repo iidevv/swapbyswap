@@ -10,7 +10,7 @@ const config: Config = {
     screens: {
       sm: '700px',
       md: '900px',
-      xl: '1300px',
+      lg: '1300px',
     },
     container: {
       padding: {

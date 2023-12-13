@@ -5,7 +5,7 @@ import React from 'react'
 
 const SignoutButton = () => {
     return (
-        <button onClick={() => signOut()}>Log Out</button>
+        <button className='text-red-600 underline hover:no-underline' onClick={() => signOut()}>Log Out</button>
     )
 }
 

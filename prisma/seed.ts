@@ -23,12 +23,12 @@ const prisma = new PrismaClient()
 
 //     })
 async function main() {
-    const product = await prisma.product.create({
+    const product = await prisma.item.create({
         data: {
             title: 'test',
             description: 'Description',
             price: 100,
-            userId: 2
+            userId: '123'
         }
     });
     console.log({ product });

@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma"
 
 const page = async () => {
-  const products = await prisma.product.findMany({})
+  const items = await prisma.item.findMany({})
   return (
     <>
-      {products.map((product) => (
-        <div>{product.title}</div>
+      {items.map((item) => (
+        <div key={item.id}>{item.title}</div>
       ))}
     </>
   )

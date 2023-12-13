@@ -47,7 +47,7 @@ model User {
   role          String
   accounts      Account[]
   sessions      Session[]
-  Product       Product[]
+  Item       Item[]
 }
 
 model VerificationToken {
@@ -58,7 +58,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Product {
+model Item {
   id          String @id @default(cuid())
   title       String
   description String
