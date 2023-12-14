@@ -1,5 +1,3 @@
-'use server'
-
 import sharp from "sharp";
 
 export async function optimizeImage(buffer: Buffer) {
