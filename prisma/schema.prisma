@@ -47,7 +47,7 @@ model User {
   role          String
   accounts      Account[]
   sessions      Session[]
-  Item       Item[]
+  Item          Item[]
 }
 
 model VerificationToken {
@@ -62,6 +62,7 @@ model Item {
   id          String @id @default(cuid())
   title       String
   description String
+  imageUrl    String
   price       Int
   userId      String
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
