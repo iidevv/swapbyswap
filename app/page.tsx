@@ -1,13 +1,17 @@
 import { prisma } from "@/lib/prisma"
 
 const Page = async () => {
-  const items = await prisma.item.findMany({})
+  const items = await prisma.item.findMany({
+    include: {
+      ItemImage: true
+    }
+  })
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
       {items.length ? items.map((item) => (
         <div key={item.id} className="overflow-hidden rounded-lg shadow-lg cursor-pointer h-90 w-full">
-          <a href="#" className="block w-full h-full">
-            <img alt="blog photo" src={`https://swap-by-swap-storage.s3.us-west-1.amazonaws.com/${item.imageUrl}`} className="object-cover w-full max-h-40" />
+          <a href={`items/${item.id}`} className="block w-full h-full">
+            <img alt={`${item.title} - photo`} src={item.ItemImage[0] ? item.ItemImage[0].imageUrl : ""} className="object-cover w-full max-h-40" />
             <div className="w-full p-4 bg-white">
               <p className="font-medium text-indigo-500 text-md">
               </p>
@@ -24,8 +28,8 @@ const Page = async () => {
           </a>
         </div>
       ))
-    : 'No items yet'  
-    }
+        : 'No items yet'
+      }
     </div>
   )
 }

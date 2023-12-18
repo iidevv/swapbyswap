@@ -7,6 +7,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 const initialState = {
     title: null,
     description: null,
+    category: '',
     image: null,
     message: '',
 }
@@ -46,7 +47,6 @@ const AddItem = () => {
             <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="file-input">Upload image</label>
 
             <input name="image" type="file" required />
-
             <SubmitButton />
             <p aria-live="polite" className="" role="status">
                 {state?.message}

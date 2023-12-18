@@ -29,6 +29,7 @@ export async function createItem(prevState: any, formData: FormData) {
     const schema = z.object({
         title: z.string().min(1),
         description: z.string().min(1),
+        category: z.string().min(1),
         image: z
             .any()
             .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
@@ -41,6 +42,7 @@ export async function createItem(prevState: any, formData: FormData) {
     const parse = schema.safeParse({
         title: formData.get('title'),
         description: formData.get('description'),
+        category: formData.get('category'),
         image: formData.get('image'),
     });
 
@@ -48,15 +50,17 @@ export async function createItem(prevState: any, formData: FormData) {
         return { message: 'Failed to create item' }
     }
 
-    const { title, description, image } = parse.data;
+    const { title, description, category, image } = parse.data;
 
     if (!image) {
         return { message: 'Image not provided' }
     }
 
     let fileName = '';
+
     try {
         fileName = await uploadFileToS3(image);
+
     } catch (e) {
         return { message: `Failed to upload Image ${e}` }
     }
@@ -65,7 +69,15 @@ export async function createItem(prevState: any, formData: FormData) {
             data: {
                 title,
                 description,
-                imageUrl: fileName,
+                category,
+                ItemImage: {
+                    create: [
+                        {
+                            name: fileName,
+                            imageUrl: process.env.AWS_S3_URL + fileName
+                        }
+                    ]
+                },
                 price: 100,
                 userId: user.id
             }
@@ -75,5 +87,54 @@ export async function createItem(prevState: any, formData: FormData) {
         return { message: `Added item ${title}` }
     } catch (e) {
         return { message: `Failed to create item ${e}` }
+    }
+}
+
+export async function searchItem(prevState: any, formData: FormData) {
+    try {
+
+        const schema = z.object({
+            search: z.string().min(1).max(50)
+        });
+
+        const parse = schema.safeParse({
+            search: formData.get('search'),
+        });
+        if (!parse.success) {
+            return { message: 'Failed. Try again' }
+        }
+        const { search } = parse.data;
+        const response = await prisma.item.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        description: {
+                            contains: search,
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            },
+            include: {
+                ItemImage: true
+            },
+            take: 5
+        });
+        if (response.length === 0) {
+            return {
+                message: `Not found...`
+            }
+        }
+        return {
+            results: response
+        };
+    } catch (e) {
+        return { message: `Not found...` }
     }
 }

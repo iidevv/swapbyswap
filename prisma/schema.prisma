@@ -59,11 +59,20 @@ model VerificationToken {
 }
 
 model Item {
-  id          String @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   description String
-  imageUrl    String
+  category    String
   price       Int
   userId      String
-  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ItemImage   ItemImage[]
+}
+
+model ItemImage {
+  id       String @id @default(cuid())
+  name     String
+  imageUrl String
+  itemId   String
+  item     Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }

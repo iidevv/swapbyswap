@@ -17,14 +17,14 @@ const SigninButton = () => {
     if (session && session.user) {
         return (
             <Link aria-label='My account' className='flex items-center p-1 rounded-lg transition-all hover:bg-grey-light' href="/account">
-                {session.user.image && <img className='w-8 h-8 rounded-full mr-2' src={session.user.image} alt={`${session.user.name} - Avatar`} />}
-                <span className='font-semibold'>{session.user.name}</span>
+                {session.user.image && <img className='w-8 h-8 rounded-full md:mr-2' src={session.user.image} alt={`${session.user.name} - Avatar`} />}
+                <span className='hidden md:block font-semibold'>{session.user.name}</span>
             </Link>
         )
     }
     return (
         <>
-            <button onClick={() => setModalOpen(!modalIsOpen)}>Sign In</button>
+            <button className='py-2 px-4 bg-primary rounded-lg text-white' onClick={() => setModalOpen(!modalIsOpen)}>Sign In</button>
             <Modal
                 isOpen={modalIsOpen}
                 ariaHideApp={false}

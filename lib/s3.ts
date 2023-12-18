@@ -1,5 +1,6 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { optimizeImage } from "@/utils/sharp";
+import { sanitizeFilename } from "@/utils/filename-utils";
 
 const s3Client = new S3Client({
     region: process.env.AWS_S3_REGION!,
@@ -14,7 +15,7 @@ export async function uploadFileToS3(file: File) {
 
     const optimizedBuffer = await optimizeImage(fileBuffer);
 
-    const fileName = file.name;
+    const fileName = sanitizeFilename(file.name);
 
     const params = {
         Bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -26,7 +27,7 @@ export async function uploadFileToS3(file: File) {
     const command = new PutObjectCommand(params);
     try {
         await s3Client.send(command);
-
+        
         return fileName;
     } catch (e) {
         throw new Error(`Error: ${e}`);
