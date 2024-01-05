@@ -1,6 +1,7 @@
 'use client'
 
 import { searchItem } from '@/app/actions/item'
+import Loader from '@/components/loader'
 import React, { useRef } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 
@@ -10,18 +11,16 @@ const initialState = {
 }
 
 function SubmitButton() {
-    const { pending } = useFormStatus()
-
+    const { pending } = useFormStatus();
+    const isDisabled = pending;
     return (
-        <button type="submit" className="absolute h-full top-0 right-0 pl-1 pr-3">
+        <button type="submit" disabled={isDisabled} className="absolute h-full top-0 right-0 pl-1 pr-3">
             {pending ? (
-                <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                </svg>
+                <Loader />
             )
                 :
                 (
-                    <svg className="w-4 h-4 text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 )}
@@ -36,14 +35,25 @@ const Search = () => {
     const [state, formAction] = useFormState(searchItem, initialState);
 
     const items = state?.results;
-    console.log(state?.message);
+
+    let submitTimeout: NodeJS.Timeout | null = null;
+
+    function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (submitTimeout) clearTimeout(submitTimeout);
+
+        submitTimeout = setTimeout(() => {
+            console.log(e.target.value);
+            formRef.current && formRef.current.requestSubmit();
+        }, 1000);
+
+    }
 
     return (
         <div className="relative">
             <form action={formAction} ref={formRef}>
                 <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                 <div className="relative">
-                    <input type="search" name="search" className="block w-full p-4 pr-10 text-sm text-gray-900 rounded-xl bg-grey-light focus:ring-blue-500 focus:border-blue-500" placeholder="Search..." required />
+                    <input type="search" onChange={(e) => onInputChange(e)} name="search" className="block w-full p-4 pr-10 text-sm text-gray-900 rounded-xl bg-grey-light focus:ring-blue-500 focus:border-blue-500" placeholder="Search..." required />
                     <SubmitButton />
                 </div>
             </form>

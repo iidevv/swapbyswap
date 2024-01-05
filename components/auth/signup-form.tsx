@@ -45,7 +45,7 @@ export function SignupForm(props: SignupFormProps) {
         name="email"
         placeholder="Email"
         required
-        className="bg-gray-50 border border-gray-300 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        className="bg-white border border-gray-400 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
       />
 
       <input
@@ -53,7 +53,7 @@ export function SignupForm(props: SignupFormProps) {
         name="password"
         placeholder="Password"
         required
-        className="bg-gray-50 border border-gray-300 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        className="bg-white border border-gray-400 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
       />
 
       <button

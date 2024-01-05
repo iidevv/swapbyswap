@@ -30,6 +30,11 @@ export async function createItem(prevState: any, formData: FormData) {
         title: z.string().min(1),
         description: z.string().min(1),
         category: z.string().min(1),
+        price: z.number().min(1),
+        priceUpgrade: z.number().min(1),
+        priceDowngrade: z.number().min(1),
+        latitude: z.number().min(1),
+        longitude: z.number().min(1),
         image: z
             .any()
             .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
@@ -44,13 +49,27 @@ export async function createItem(prevState: any, formData: FormData) {
         description: formData.get('description'),
         category: formData.get('category'),
         image: formData.get('image'),
+        price: formData.get('image'),
+        priceUpgrade: formData.get('price-upgrade'),
+        priceDowngrade: formData.get('price-downgrade'),
+        latitude: formData.get('latitude'),
+        longitude: formData.get('longitude'),
     });
 
     if (!parse.success) {
         return { message: 'Failed to create item' }
     }
 
-    const { title, description, category, image } = parse.data;
+    const {
+        title,
+        description,
+        category,
+        image,
+        price,
+        priceUpgrade,
+        priceDowngrade,
+        latitude,
+        longitude } = parse.data;
 
     if (!image) {
         return { message: 'Image not provided' }
@@ -78,7 +97,11 @@ export async function createItem(prevState: any, formData: FormData) {
                         }
                     ]
                 },
-                price: 100,
+                price,
+                priceUpgrade,
+                priceDowngrade,
+                latitude,
+                longitude,
                 userId: user.id
             }
         })
@@ -104,6 +127,7 @@ export async function searchItem(prevState: any, formData: FormData) {
             return { message: 'Failed. Try again' }
         }
         const { search } = parse.data;
+
         const response = await prisma.item.findMany({
             where: {
                 OR: [
@@ -126,15 +150,16 @@ export async function searchItem(prevState: any, formData: FormData) {
             },
             take: 5
         });
-        if (response.length === 0) {
+
+        if (!response || response.length === 0) {
             return {
-                message: `Not found...`
+                message: `No results`
             }
         }
         return {
             results: response
         };
     } catch (e) {
-        return { message: `Not found...` }
+        return { message: `No results` }
     }
 }

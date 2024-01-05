@@ -58,15 +58,29 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+enum ItemStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+  COMPLETED
+}
+
 model Item {
-  id          String      @id @default(cuid())
-  title       String
-  description String
-  category    String
-  price       Int
-  userId      String
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ItemImage   ItemImage[]
+  id             String      @id @default(cuid())
+  title          String
+  description    String
+  category       String
+  price          Int
+  priceUpgrade   Int
+  priceDowngrade Int
+  condition      Int
+  views          Int
+  status         ItemStatus
+  latitude       Float
+  longitude      Float
+  userId         String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ItemImage      ItemImage[]
 }
 
 model ItemImage {
