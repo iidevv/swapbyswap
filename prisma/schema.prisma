@@ -70,10 +70,10 @@ model Item {
   title          String
   description    String
   category       String
+  condition      String
   price          Int
   priceUpgrade   Int
   priceDowngrade Int
-  condition      Int
   views          Int
   status         ItemStatus
   latitude       Float
